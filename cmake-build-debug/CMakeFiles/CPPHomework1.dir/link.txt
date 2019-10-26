@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++17 -Wall -fsanitize=address --coverage -g   CMakeFiles/CPPHomework1.dir/main.cpp.o CMakeFiles/CPPHomework1.dir/Vector.cpp.o CMakeFiles/CPPHomework1.dir/Matrix.cpp.o  -o CPPHomework1 

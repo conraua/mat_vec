@@ -1,0 +1,752 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - main.info - 7/string_view</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">7</a> - string_view<span style="font-size: 80%;"> (source / <a href="string_view.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">main.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2019-10-26 23:00:14</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : // Components for manipulating non-owning sequences of characters -*- C++ -*-</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : // Copyright (C) 2013-2017 Free Software Foundation, Inc.
+<span class="lineNum">       4 </span>            : //
+<span class="lineNum">       5 </span>            : // This file is part of the GNU ISO C++ Library.  This library is free
+<span class="lineNum">       6 </span>            : // software; you can redistribute it and/or modify it under the
+<span class="lineNum">       7 </span>            : // terms of the GNU General Public License as published by the
+<span class="lineNum">       8 </span>            : // Free Software Foundation; either version 3, or (at your option)
+<span class="lineNum">       9 </span>            : // any later version.
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : // This library is distributed in the hope that it will be useful,
+<span class="lineNum">      12 </span>            : // but WITHOUT ANY WARRANTY; without even the implied warranty of
+<span class="lineNum">      13 </span>            : // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+<span class="lineNum">      14 </span>            : // GNU General Public License for more details.
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : // Under Section 7 of GPL version 3, you are granted additional
+<span class="lineNum">      17 </span>            : // permissions described in the GCC Runtime Library Exception, version
+<span class="lineNum">      18 </span>            : // 3.1, as published by the Free Software Foundation.
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            : // You should have received a copy of the GNU General Public License and
+<span class="lineNum">      21 </span>            : // a copy of the GCC Runtime Library Exception along with this program;
+<span class="lineNum">      22 </span>            : // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+<span class="lineNum">      23 </span>            : // &lt;http://www.gnu.org/licenses/&gt;.
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span>            : /** @file string_view
+<span class="lineNum">      26 </span>            :  *  This is a Standard C++ Library header.
+<span class="lineNum">      27 </span>            :  */
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            : //
+<span class="lineNum">      30 </span>            : // N3762 basic_string_view library
+<span class="lineNum">      31 </span>            : //
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : #ifndef _GLIBCXX_STRING_VIEW
+<span class="lineNum">      34 </span>            : #define _GLIBCXX_STRING_VIEW 1
+<span class="lineNum">      35 </span>            : 
+<span class="lineNum">      36 </span>            : #pragma GCC system_header
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span>            : #if __cplusplus &gt;= 201703L
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span>            : #include &lt;limits&gt;
+<span class="lineNum">      41 </span>            : #include &lt;iosfwd&gt;
+<span class="lineNum">      42 </span>            : #include &lt;bits/char_traits.h&gt;
+<span class="lineNum">      43 </span>            : #include &lt;bits/functional_hash.h&gt;
+<span class="lineNum">      44 </span>            : #include &lt;bits/range_access.h&gt;
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            : namespace std _GLIBCXX_VISIBILITY(default)
+<span class="lineNum">      47 </span>            : {
+<span class="lineNum">      48 </span>            : _GLIBCXX_BEGIN_NAMESPACE_VERSION
+<span class="lineNum">      49 </span>            : 
+<span class="lineNum">      50 </span>            : #define __cpp_lib_string_view 201603
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span>            :   /**
+<span class="lineNum">      53 </span>            :    *  @class basic_string_view &lt;string_view&gt;
+<span class="lineNum">      54 </span>            :    *  @brief  A non-owning reference to a string.
+<span class="lineNum">      55 </span>            :    *
+<span class="lineNum">      56 </span>            :    *  @ingroup strings
+<span class="lineNum">      57 </span>            :    *  @ingroup sequences
+<span class="lineNum">      58 </span>            :    *
+<span class="lineNum">      59 </span>            :    *  @tparam _CharT  Type of character
+<span class="lineNum">      60 </span>            :    *  @tparam _Traits  Traits for character type, defaults to
+<span class="lineNum">      61 </span>            :    *                   char_traits&lt;_CharT&gt;.
+<span class="lineNum">      62 </span>            :    *
+<span class="lineNum">      63 </span>            :    *  A basic_string_view looks like this:
+<span class="lineNum">      64 </span>            :    *
+<span class="lineNum">      65 </span>            :    *  @code
+<span class="lineNum">      66 </span>            :    *    _CharT*    _M_str
+<span class="lineNum">      67 </span>            :    *    size_t     _M_len
+<span class="lineNum">      68 </span>            :    *  @endcode
+<span class="lineNum">      69 </span>            :    */
+<span class="lineNum">      70 </span>            :   template&lt;typename _CharT, typename _Traits = std::char_traits&lt;_CharT&gt;&gt;
+<span class="lineNum">      71 </span>            :     class basic_string_view
+<span class="lineNum">      72 </span>            :     {
+<span class="lineNum">      73 </span>            :     public:
+<span class="lineNum">      74 </span>            : 
+<span class="lineNum">      75 </span>            :       // types
+<span class="lineNum">      76 </span>            :       using traits_type = _Traits;
+<span class="lineNum">      77 </span>            :       using value_type = _CharT;
+<span class="lineNum">      78 </span>            :       using pointer = const _CharT*;
+<span class="lineNum">      79 </span>            :       using const_pointer = const _CharT*;
+<span class="lineNum">      80 </span>            :       using reference = const _CharT&amp;;
+<span class="lineNum">      81 </span>            :       using const_reference = const _CharT&amp;;
+<span class="lineNum">      82 </span>            :       using const_iterator = const _CharT*;
+<span class="lineNum">      83 </span>            :       using iterator = const_iterator;
+<span class="lineNum">      84 </span>            :       using const_reverse_iterator = std::reverse_iterator&lt;const_iterator&gt;;
+<span class="lineNum">      85 </span>            :       using reverse_iterator = const_reverse_iterator;
+<span class="lineNum">      86 </span>            :       using size_type = size_t;
+<span class="lineNum">      87 </span>            :       using difference_type = ptrdiff_t;
+<span class="lineNum">      88 </span>            :       static constexpr size_type npos = size_type(-1);
+<span class="lineNum">      89 </span>            : 
+<span class="lineNum">      90 </span>            :       // [string.view.cons], construct/copy
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span>            :       constexpr
+<span class="lineNum">      93 </span>            :       basic_string_view() noexcept
+<span class="lineNum">      94 </span>            :       : _M_len{0}, _M_str{nullptr}
+<span class="lineNum">      95 </span>            :       { }
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span>            :       constexpr basic_string_view(const basic_string_view&amp;) noexcept = default;
+<span class="lineNum">      98 </span>            : 
+<span class="lineNum">      99 </span>            :       constexpr basic_string_view(const _CharT* __str)
+<span class="lineNum">     100 </span>            :       : _M_len{__str == nullptr ? 0 : traits_type::length(__str)},
+<span class="lineNum">     101 </span>            :         _M_str{__str}
+<span class="lineNum">     102 </span>            :       { }
+<span class="lineNum">     103 </span>            : 
+<span class="lineNum">     104 </span>            :       constexpr basic_string_view(const _CharT* __str, size_type __len)
+<span class="lineNum">     105 </span>            :       : _M_len{__len},
+<span class="lineNum">     106 </span>            :         _M_str{__str}
+<span class="lineNum">     107 </span>            :       { }
+<span class="lineNum">     108 </span>            : 
+<span class="lineNum">     109 </span>            :       constexpr basic_string_view&amp;
+<span class="lineNum">     110 </span>            :       operator=(const basic_string_view&amp;) noexcept = default;
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span>            :       // [string.view.iterators], iterators
+<span class="lineNum">     113 </span>            : 
+<span class="lineNum">     114 </span>            :       constexpr const_iterator
+<span class="lineNum">     115 </span>            :       begin() const noexcept
+<span class="lineNum">     116 </span>            :       { return this-&gt;_M_str; }
+<span class="lineNum">     117 </span>            : 
+<span class="lineNum">     118 </span>            :       constexpr const_iterator
+<span class="lineNum">     119 </span>            :       end() const noexcept
+<span class="lineNum">     120 </span>            :       { return this-&gt;_M_str + this-&gt;_M_len; }
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span>            :       constexpr const_iterator
+<span class="lineNum">     123 </span>            :       cbegin() const noexcept
+<span class="lineNum">     124 </span>            :       { return this-&gt;_M_str; }
+<span class="lineNum">     125 </span>            : 
+<span class="lineNum">     126 </span>            :       constexpr const_iterator
+<span class="lineNum">     127 </span>            :       cend() const noexcept
+<span class="lineNum">     128 </span>            :       { return this-&gt;_M_str + this-&gt;_M_len; }
+<span class="lineNum">     129 </span>            : 
+<span class="lineNum">     130 </span>            :       constexpr const_reverse_iterator
+<span class="lineNum">     131 </span>            :       rbegin() const noexcept
+<span class="lineNum">     132 </span>            :       { return const_reverse_iterator(this-&gt;end()); }
+<span class="lineNum">     133 </span>            : 
+<span class="lineNum">     134 </span>            :       constexpr const_reverse_iterator
+<span class="lineNum">     135 </span>            :       rend() const noexcept
+<span class="lineNum">     136 </span>            :       { return const_reverse_iterator(this-&gt;begin()); }
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span>            :       constexpr const_reverse_iterator
+<span class="lineNum">     139 </span>            :       crbegin() const noexcept
+<span class="lineNum">     140 </span>            :       { return const_reverse_iterator(this-&gt;end()); }
+<span class="lineNum">     141 </span>            : 
+<span class="lineNum">     142 </span>            :       constexpr const_reverse_iterator
+<span class="lineNum">     143 </span>            :       crend() const noexcept
+<span class="lineNum">     144 </span>            :       { return const_reverse_iterator(this-&gt;begin()); }
+<span class="lineNum">     145 </span>            : 
+<span class="lineNum">     146 </span>            :       // [string.view.capacity], capacity
+<a name="147"><span class="lineNum">     147 </span>            : </a>
+<span class="lineNum">     148 </span>            :       constexpr size_type
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :       size() const noexcept</span>
+<span class="lineNum">     150 </span><span class="lineNoCov">          0 :       { return this-&gt;_M_len; }</span>
+<span class="lineNum">     151 </span>            : 
+<span class="lineNum">     152 </span>            :       constexpr size_type
+<span class="lineNum">     153 </span>            :       length() const noexcept
+<span class="lineNum">     154 </span>            :       { return _M_len; }
+<span class="lineNum">     155 </span>            : 
+<span class="lineNum">     156 </span>            :       constexpr size_type
+<span class="lineNum">     157 </span>            :       max_size() const noexcept
+<span class="lineNum">     158 </span>            :       {
+<span class="lineNum">     159 </span>            :         return (npos - sizeof(size_type) - sizeof(void*))
+<span class="lineNum">     160 </span>            :                 / sizeof(value_type) / 4;
+<span class="lineNum">     161 </span>            :       }
+<span class="lineNum">     162 </span>            : 
+<span class="lineNum">     163 </span>            :       constexpr bool
+<span class="lineNum">     164 </span>            :       empty() const noexcept
+<span class="lineNum">     165 </span>            :       { return this-&gt;_M_len == 0; }
+<span class="lineNum">     166 </span>            : 
+<span class="lineNum">     167 </span>            :       // [string.view.access], element access
+<span class="lineNum">     168 </span>            : 
+<span class="lineNum">     169 </span>            :       constexpr const _CharT&amp;
+<span class="lineNum">     170 </span>            :       operator[](size_type __pos) const noexcept
+<span class="lineNum">     171 </span>            :       {
+<span class="lineNum">     172 </span>            :         // TODO: Assert to restore in a way compatible with the constexpr.
+<span class="lineNum">     173 </span>            :         // __glibcxx_assert(__pos &lt; this-&gt;_M_len);
+<span class="lineNum">     174 </span>            :         return *(this-&gt;_M_str + __pos);
+<span class="lineNum">     175 </span>            :       }
+<span class="lineNum">     176 </span>            : 
+<span class="lineNum">     177 </span>            :       constexpr const _CharT&amp;
+<span class="lineNum">     178 </span>            :       at(size_type __pos) const
+<span class="lineNum">     179 </span>            :       {
+<span class="lineNum">     180 </span>            :         return __pos &lt; this-&gt;_M_len
+<span class="lineNum">     181 </span>            :              ? *(this-&gt;_M_str + __pos)
+<span class="lineNum">     182 </span>            :              : (__throw_out_of_range_fmt(__N(&quot;basic_string_view::at: __pos &quot;
+<span class="lineNum">     183 </span>            :                                              &quot;(which is %zu) &gt;= this-&gt;size() &quot;
+<span class="lineNum">     184 </span>            :                                              &quot;(which is %zu)&quot;),
+<span class="lineNum">     185 </span>            :                                          __pos, this-&gt;size()),
+<span class="lineNum">     186 </span>            :                 *this-&gt;_M_str);
+<span class="lineNum">     187 </span>            :       }
+<span class="lineNum">     188 </span>            : 
+<span class="lineNum">     189 </span>            :       constexpr const _CharT&amp;
+<span class="lineNum">     190 </span>            :       front() const
+<span class="lineNum">     191 </span>            :       {
+<span class="lineNum">     192 </span>            :         // TODO: Assert to restore in a way compatible with the constexpr.
+<span class="lineNum">     193 </span>            :         // __glibcxx_assert(this-&gt;_M_len &gt; 0);
+<span class="lineNum">     194 </span>            :         return *this-&gt;_M_str;
+<span class="lineNum">     195 </span>            :       }
+<span class="lineNum">     196 </span>            : 
+<span class="lineNum">     197 </span>            :       constexpr const _CharT&amp;
+<span class="lineNum">     198 </span>            :       back() const
+<span class="lineNum">     199 </span>            :       {
+<span class="lineNum">     200 </span>            :         // TODO: Assert to restore in a way compatible with the constexpr.
+<span class="lineNum">     201 </span>            :         // __glibcxx_assert(this-&gt;_M_len &gt; 0);
+<span class="lineNum">     202 </span>            :         return *(this-&gt;_M_str + this-&gt;_M_len - 1);
+<span class="lineNum">     203 </span>            :       }
+<a name="204"><span class="lineNum">     204 </span>            : </a>
+<span class="lineNum">     205 </span>            :       constexpr const _CharT*
+<span class="lineNum">     206 </span><span class="lineNoCov">          0 :       data() const noexcept</span>
+<span class="lineNum">     207 </span><span class="lineNoCov">          0 :       { return this-&gt;_M_str; }</span>
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span>            :       // [string.view.modifiers], modifiers:
+<span class="lineNum">     210 </span>            : 
+<span class="lineNum">     211 </span>            :       constexpr void
+<span class="lineNum">     212 </span>            :       remove_prefix(size_type __n)
+<span class="lineNum">     213 </span>            :       {
+<span class="lineNum">     214 </span>            :         __glibcxx_assert(this-&gt;_M_len &gt;= __n);
+<span class="lineNum">     215 </span>            :         this-&gt;_M_str += __n;
+<span class="lineNum">     216 </span>            :         this-&gt;_M_len -= __n;
+<span class="lineNum">     217 </span>            :       }
+<span class="lineNum">     218 </span>            : 
+<span class="lineNum">     219 </span>            :       constexpr void
+<span class="lineNum">     220 </span>            :       remove_suffix(size_type __n)
+<span class="lineNum">     221 </span>            :       { this-&gt;_M_len -= __n; }
+<span class="lineNum">     222 </span>            : 
+<span class="lineNum">     223 </span>            :       constexpr void
+<span class="lineNum">     224 </span>            :       swap(basic_string_view&amp; __sv) noexcept
+<span class="lineNum">     225 </span>            :       {
+<span class="lineNum">     226 </span>            :         auto __tmp = *this;
+<span class="lineNum">     227 </span>            :         *this = __sv;
+<span class="lineNum">     228 </span>            :         __sv = __tmp;
+<span class="lineNum">     229 </span>            :       }
+<span class="lineNum">     230 </span>            : 
+<span class="lineNum">     231 </span>            : 
+<span class="lineNum">     232 </span>            :       // [string.view.ops], string operations:
+<span class="lineNum">     233 </span>            : 
+<span class="lineNum">     234 </span>            :       size_type
+<span class="lineNum">     235 </span>            :       copy(_CharT* __str, size_type __n, size_type __pos = 0) const
+<span class="lineNum">     236 </span>            :       {
+<span class="lineNum">     237 </span>            :         __glibcxx_requires_string_len(__str, __n);
+<span class="lineNum">     238 </span>            :         if (__pos &gt; this-&gt;_M_len)
+<span class="lineNum">     239 </span>            :           __throw_out_of_range_fmt(__N(&quot;basic_string_view::copy: __pos &quot;
+<span class="lineNum">     240 </span>            :                                        &quot;(which is %zu) &gt; this-&gt;size() &quot;
+<span class="lineNum">     241 </span>            :                                        &quot;(which is %zu)&quot;),
+<span class="lineNum">     242 </span>            :                                    __pos, this-&gt;size());
+<span class="lineNum">     243 </span>            :         size_type __rlen{std::min(__n, size_type{this-&gt;_M_len  - __pos})};
+<span class="lineNum">     244 </span>            :         for (auto __begin = this-&gt;_M_str + __pos,
+<span class="lineNum">     245 </span>            :              __end = __begin + __rlen; __begin != __end;)
+<span class="lineNum">     246 </span>            :           *__str++ = *__begin++;
+<span class="lineNum">     247 </span>            :         return __rlen;
+<span class="lineNum">     248 </span>            :       }
+<span class="lineNum">     249 </span>            : 
+<span class="lineNum">     250 </span>            : 
+<span class="lineNum">     251 </span>            :       // [string.view.ops], string operations:
+<span class="lineNum">     252 </span>            : 
+<span class="lineNum">     253 </span>            :       constexpr basic_string_view
+<span class="lineNum">     254 </span>            :       substr(size_type __pos, size_type __n=npos) const
+<span class="lineNum">     255 </span>            :       {
+<span class="lineNum">     256 </span>            :         return __pos &lt;= this-&gt;_M_len
+<span class="lineNum">     257 </span>            :              ? basic_string_view{this-&gt;_M_str + __pos,
+<span class="lineNum">     258 </span>            :                                 std::min(__n, size_type{this-&gt;_M_len  - __pos})}
+<span class="lineNum">     259 </span>            :              : (__throw_out_of_range_fmt(__N(&quot;basic_string_view::substr: __pos &quot;
+<span class="lineNum">     260 </span>            :                                              &quot;(which is %zu) &gt; this-&gt;size() &quot;
+<span class="lineNum">     261 </span>            :                                              &quot;(which is %zu)&quot;),
+<span class="lineNum">     262 </span>            :                                      __pos, this-&gt;size()), basic_string_view{});
+<span class="lineNum">     263 </span>            :       }
+<span class="lineNum">     264 </span>            : 
+<span class="lineNum">     265 </span>            :       constexpr int
+<span class="lineNum">     266 </span>            :       compare(basic_string_view __str) const noexcept
+<span class="lineNum">     267 </span>            :       {
+<span class="lineNum">     268 </span>            :         int __ret = traits_type::compare(this-&gt;_M_str, __str._M_str,
+<span class="lineNum">     269 </span>            :                                          std::min(this-&gt;_M_len, __str._M_len));
+<span class="lineNum">     270 </span>            :         if (__ret == 0)
+<span class="lineNum">     271 </span>            :           __ret = _S_compare(this-&gt;_M_len, __str._M_len);
+<span class="lineNum">     272 </span>            :         return __ret;
+<span class="lineNum">     273 </span>            :       }
+<span class="lineNum">     274 </span>            : 
+<span class="lineNum">     275 </span>            :       constexpr int
+<span class="lineNum">     276 </span>            :       compare(size_type __pos1, size_type __n1, basic_string_view __str) const
+<span class="lineNum">     277 </span>            :       { return this-&gt;substr(__pos1, __n1).compare(__str); }
+<span class="lineNum">     278 </span>            : 
+<span class="lineNum">     279 </span>            :       constexpr int
+<span class="lineNum">     280 </span>            :       compare(size_type __pos1, size_type __n1,
+<span class="lineNum">     281 </span>            :               basic_string_view __str, size_type __pos2, size_type __n2) const
+<span class="lineNum">     282 </span>            :       { return this-&gt;substr(__pos1, __n1).compare(__str.substr(__pos2, __n2)); }
+<span class="lineNum">     283 </span>            : 
+<span class="lineNum">     284 </span>            :       constexpr int
+<span class="lineNum">     285 </span>            :       compare(const _CharT* __str) const noexcept
+<span class="lineNum">     286 </span>            :       { return this-&gt;compare(basic_string_view{__str}); }
+<span class="lineNum">     287 </span>            : 
+<span class="lineNum">     288 </span>            :       constexpr int
+<span class="lineNum">     289 </span>            :       compare(size_type __pos1, size_type __n1, const _CharT* __str) const
+<span class="lineNum">     290 </span>            :       { return this-&gt;substr(__pos1, __n1).compare(basic_string_view{__str}); }
+<span class="lineNum">     291 </span>            : 
+<span class="lineNum">     292 </span>            :       constexpr int
+<span class="lineNum">     293 </span>            :       compare(size_type __pos1, size_type __n1,
+<span class="lineNum">     294 </span>            :               const _CharT* __str, size_type __n2) const
+<span class="lineNum">     295 </span>            :       {
+<span class="lineNum">     296 </span>            :         return this-&gt;substr(__pos1, __n1)
+<span class="lineNum">     297 </span>            :                    .compare(basic_string_view(__str, __n2));
+<span class="lineNum">     298 </span>            :       }
+<span class="lineNum">     299 </span>            : 
+<span class="lineNum">     300 </span>            :       constexpr size_type
+<span class="lineNum">     301 </span>            :       find(basic_string_view __str, size_type __pos = 0) const noexcept
+<span class="lineNum">     302 </span>            :       { return this-&gt;find(__str._M_str, __pos, __str._M_len); }
+<span class="lineNum">     303 </span>            : 
+<span class="lineNum">     304 </span>            :       constexpr size_type
+<span class="lineNum">     305 </span>            :       find(_CharT __c, size_type __pos=0) const noexcept;
+<span class="lineNum">     306 </span>            : 
+<span class="lineNum">     307 </span>            :       constexpr size_type
+<span class="lineNum">     308 </span>            :       find(const _CharT* __str, size_type __pos, size_type __n) const noexcept;
+<span class="lineNum">     309 </span>            : 
+<span class="lineNum">     310 </span>            :       constexpr size_type
+<span class="lineNum">     311 </span>            :       find(const _CharT* __str, size_type __pos=0) const noexcept
+<span class="lineNum">     312 </span>            :       { return this-&gt;find(__str, __pos, traits_type::length(__str)); }
+<span class="lineNum">     313 </span>            : 
+<span class="lineNum">     314 </span>            :       constexpr size_type
+<span class="lineNum">     315 </span>            :       rfind(basic_string_view __str, size_type __pos = npos) const noexcept
+<span class="lineNum">     316 </span>            :       { return this-&gt;rfind(__str._M_str, __pos, __str._M_len); }
+<span class="lineNum">     317 </span>            : 
+<span class="lineNum">     318 </span>            :       constexpr size_type
+<span class="lineNum">     319 </span>            :       rfind(_CharT __c, size_type __pos = npos) const noexcept;
+<span class="lineNum">     320 </span>            : 
+<span class="lineNum">     321 </span>            :       constexpr size_type
+<span class="lineNum">     322 </span>            :       rfind(const _CharT* __str, size_type __pos, size_type __n) const noexcept;
+<span class="lineNum">     323 </span>            : 
+<span class="lineNum">     324 </span>            :       constexpr size_type
+<span class="lineNum">     325 </span>            :       rfind(const _CharT* __str, size_type __pos = npos) const noexcept
+<span class="lineNum">     326 </span>            :       { return this-&gt;rfind(__str, __pos, traits_type::length(__str)); }
+<span class="lineNum">     327 </span>            : 
+<span class="lineNum">     328 </span>            :       constexpr size_type
+<span class="lineNum">     329 </span>            :       find_first_of(basic_string_view __str, size_type __pos = 0) const noexcept
+<span class="lineNum">     330 </span>            :       { return this-&gt;find_first_of(__str._M_str, __pos, __str._M_len); }
+<span class="lineNum">     331 </span>            : 
+<span class="lineNum">     332 </span>            :       constexpr size_type
+<span class="lineNum">     333 </span>            :       find_first_of(_CharT __c, size_type __pos = 0) const noexcept
+<span class="lineNum">     334 </span>            :       { return this-&gt;find(__c, __pos); }
+<span class="lineNum">     335 </span>            : 
+<span class="lineNum">     336 </span>            :       constexpr size_type
+<span class="lineNum">     337 </span>            :       find_first_of(const _CharT* __str, size_type __pos, size_type __n) const;
+<span class="lineNum">     338 </span>            : 
+<span class="lineNum">     339 </span>            :       constexpr size_type
+<span class="lineNum">     340 </span>            :       find_first_of(const _CharT* __str, size_type __pos = 0) const noexcept
+<span class="lineNum">     341 </span>            :       { return this-&gt;find_first_of(__str, __pos, traits_type::length(__str)); }
+<span class="lineNum">     342 </span>            : 
+<span class="lineNum">     343 </span>            :       constexpr size_type
+<span class="lineNum">     344 </span>            :       find_last_of(basic_string_view __str,
+<span class="lineNum">     345 </span>            :                    size_type __pos = npos) const noexcept
+<span class="lineNum">     346 </span>            :       { return this-&gt;find_last_of(__str._M_str, __pos, __str._M_len); }
+<span class="lineNum">     347 </span>            : 
+<span class="lineNum">     348 </span>            :       constexpr size_type
+<span class="lineNum">     349 </span>            :       find_last_of(_CharT __c, size_type __pos=npos) const noexcept
+<span class="lineNum">     350 </span>            :       { return this-&gt;rfind(__c, __pos); }
+<span class="lineNum">     351 </span>            : 
+<span class="lineNum">     352 </span>            :       constexpr size_type
+<span class="lineNum">     353 </span>            :       find_last_of(const _CharT* __str, size_type __pos, size_type __n) const;
+<span class="lineNum">     354 </span>            : 
+<span class="lineNum">     355 </span>            :       constexpr size_type
+<span class="lineNum">     356 </span>            :       find_last_of(const _CharT* __str, size_type __pos = npos) const noexcept
+<span class="lineNum">     357 </span>            :       { return this-&gt;find_last_of(__str, __pos, traits_type::length(__str)); }
+<span class="lineNum">     358 </span>            : 
+<span class="lineNum">     359 </span>            :       constexpr size_type
+<span class="lineNum">     360 </span>            :       find_first_not_of(basic_string_view __str,
+<span class="lineNum">     361 </span>            :                         size_type __pos = 0) const noexcept
+<span class="lineNum">     362 </span>            :       { return this-&gt;find_first_not_of(__str._M_str, __pos, __str._M_len); }
+<span class="lineNum">     363 </span>            : 
+<span class="lineNum">     364 </span>            :       constexpr size_type
+<span class="lineNum">     365 </span>            :       find_first_not_of(_CharT __c, size_type __pos = 0) const noexcept;
+<span class="lineNum">     366 </span>            : 
+<span class="lineNum">     367 </span>            :       constexpr size_type
+<span class="lineNum">     368 </span>            :       find_first_not_of(const _CharT* __str,
+<span class="lineNum">     369 </span>            :                         size_type __pos, size_type __n) const;
+<span class="lineNum">     370 </span>            : 
+<span class="lineNum">     371 </span>            :       constexpr size_type
+<span class="lineNum">     372 </span>            :       find_first_not_of(const _CharT* __str, size_type __pos = 0) const noexcept
+<span class="lineNum">     373 </span>            :       {
+<span class="lineNum">     374 </span>            :         return this-&gt;find_first_not_of(__str, __pos,
+<span class="lineNum">     375 </span>            :                                        traits_type::length(__str));
+<span class="lineNum">     376 </span>            :       }
+<span class="lineNum">     377 </span>            : 
+<span class="lineNum">     378 </span>            :       constexpr size_type
+<span class="lineNum">     379 </span>            :       find_last_not_of(basic_string_view __str,
+<span class="lineNum">     380 </span>            :                        size_type __pos = npos) const noexcept
+<span class="lineNum">     381 </span>            :       { return this-&gt;find_last_not_of(__str._M_str, __pos, __str._M_len); }
+<span class="lineNum">     382 </span>            : 
+<span class="lineNum">     383 </span>            :       constexpr size_type
+<span class="lineNum">     384 </span>            :       find_last_not_of(_CharT __c, size_type __pos = npos) const noexcept;
+<span class="lineNum">     385 </span>            : 
+<span class="lineNum">     386 </span>            :       constexpr size_type
+<span class="lineNum">     387 </span>            :       find_last_not_of(const _CharT* __str,
+<span class="lineNum">     388 </span>            :                        size_type __pos, size_type __n) const;
+<span class="lineNum">     389 </span>            : 
+<span class="lineNum">     390 </span>            :       constexpr size_type
+<span class="lineNum">     391 </span>            :       find_last_not_of(const _CharT* __str,
+<span class="lineNum">     392 </span>            :                        size_type __pos = npos) const noexcept
+<span class="lineNum">     393 </span>            :       {
+<span class="lineNum">     394 </span>            :         return this-&gt;find_last_not_of(__str, __pos,
+<span class="lineNum">     395 </span>            :                                       traits_type::length(__str));
+<span class="lineNum">     396 </span>            :       }
+<span class="lineNum">     397 </span>            : 
+<span class="lineNum">     398 </span>            :       constexpr size_type
+<span class="lineNum">     399 </span>            :       _M_check(size_type __pos, const char* __s) const
+<span class="lineNum">     400 </span>            :       {
+<span class="lineNum">     401 </span>            :         if (__pos &gt; this-&gt;size())
+<span class="lineNum">     402 </span>            :           __throw_out_of_range_fmt(__N(&quot;%s: __pos (which is %zu) &gt; &quot;
+<span class="lineNum">     403 </span>            :                                        &quot;this-&gt;size() (which is %zu)&quot;),
+<span class="lineNum">     404 </span>            :                                    __s, __pos, this-&gt;size());
+<span class="lineNum">     405 </span>            :         return __pos;
+<span class="lineNum">     406 </span>            :       }
+<span class="lineNum">     407 </span>            : 
+<span class="lineNum">     408 </span>            :       // NB: _M_limit doesn't check for a bad __pos value.
+<span class="lineNum">     409 </span>            :       constexpr size_type
+<span class="lineNum">     410 </span>            :       _M_limit(size_type __pos, size_type __off) const _GLIBCXX_NOEXCEPT
+<span class="lineNum">     411 </span>            :       {
+<span class="lineNum">     412 </span>            :         const bool __testoff =  __off &lt; this-&gt;size() - __pos;
+<span class="lineNum">     413 </span>            :         return __testoff ? __off : this-&gt;size() - __pos;
+<span class="lineNum">     414 </span>            :       }
+<span class="lineNum">     415 </span>            :       
+<span class="lineNum">     416 </span>            :     private:
+<span class="lineNum">     417 </span>            : 
+<span class="lineNum">     418 </span>            :       static constexpr int
+<span class="lineNum">     419 </span>            :       _S_compare(size_type __n1, size_type __n2) noexcept
+<span class="lineNum">     420 </span>            :       {
+<span class="lineNum">     421 </span>            :         return difference_type{__n1 - __n2} &gt; std::numeric_limits&lt;int&gt;::max()
+<span class="lineNum">     422 </span>            :              ? std::numeric_limits&lt;int&gt;::max()
+<span class="lineNum">     423 </span>            :              : difference_type{__n1 - __n2} &lt; std::numeric_limits&lt;int&gt;::min()
+<span class="lineNum">     424 </span>            :              ? std::numeric_limits&lt;int&gt;::min()
+<span class="lineNum">     425 </span>            :              : static_cast&lt;int&gt;(difference_type{__n1 - __n2});
+<span class="lineNum">     426 </span>            :       }
+<span class="lineNum">     427 </span>            : 
+<span class="lineNum">     428 </span>            :       size_t        _M_len;
+<span class="lineNum">     429 </span>            :       const _CharT* _M_str;
+<span class="lineNum">     430 </span>            :     };
+<span class="lineNum">     431 </span>            : _GLIBCXX_END_NAMESPACE_VERSION
+<span class="lineNum">     432 </span>            : 
+<span class="lineNum">     433 </span>            :   // [string.view.comparison], non-member basic_string_view comparison function
+<span class="lineNum">     434 </span>            : 
+<span class="lineNum">     435 </span>            :   namespace __detail
+<span class="lineNum">     436 </span>            :   {
+<span class="lineNum">     437 </span>            : _GLIBCXX_BEGIN_NAMESPACE_VERSION
+<span class="lineNum">     438 </span>            :     // Identity transform to create a non-deduced context, so that only one
+<span class="lineNum">     439 </span>            :     // argument participates in template argument deduction and the other
+<span class="lineNum">     440 </span>            :     // argument gets implicitly converted to the deduced type. See n3766.html.
+<span class="lineNum">     441 </span>            :     template&lt;typename _Tp&gt;
+<span class="lineNum">     442 </span>            :       using __idt = common_type_t&lt;_Tp&gt;;
+<span class="lineNum">     443 </span>            : _GLIBCXX_END_NAMESPACE_VERSION
+<span class="lineNum">     444 </span>            :   }
+<span class="lineNum">     445 </span>            : 
+<span class="lineNum">     446 </span>            : _GLIBCXX_BEGIN_NAMESPACE_VERSION
+<span class="lineNum">     447 </span>            : 
+<span class="lineNum">     448 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     449 </span>            :     constexpr bool
+<span class="lineNum">     450 </span>            :     operator==(basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     451 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     452 </span>            :     { return __x.size() == __y.size() &amp;&amp; __x.compare(__y) == 0; }
+<span class="lineNum">     453 </span>            : 
+<span class="lineNum">     454 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     455 </span>            :     constexpr bool
+<span class="lineNum">     456 </span>            :     operator==(basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     457 </span>            :                __detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __y) noexcept
+<span class="lineNum">     458 </span>            :     { return __x.size() == __y.size() &amp;&amp; __x.compare(__y) == 0; }
+<span class="lineNum">     459 </span>            : 
+<span class="lineNum">     460 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     461 </span>            :     constexpr bool
+<span class="lineNum">     462 </span>            :     operator==(__detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __x,
+<span class="lineNum">     463 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     464 </span>            :     { return __x.size() == __y.size() &amp;&amp; __x.compare(__y) == 0; }
+<span class="lineNum">     465 </span>            : 
+<span class="lineNum">     466 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     467 </span>            :     constexpr bool
+<span class="lineNum">     468 </span>            :     operator!=(basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     469 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     470 </span>            :     { return !(__x == __y); }
+<span class="lineNum">     471 </span>            : 
+<span class="lineNum">     472 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     473 </span>            :     constexpr bool
+<span class="lineNum">     474 </span>            :     operator!=(basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     475 </span>            :                __detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __y) noexcept
+<span class="lineNum">     476 </span>            :     { return !(__x == __y); }
+<span class="lineNum">     477 </span>            : 
+<span class="lineNum">     478 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     479 </span>            :     constexpr bool
+<span class="lineNum">     480 </span>            :     operator!=(__detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __x,
+<span class="lineNum">     481 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     482 </span>            :     { return !(__x == __y); }
+<span class="lineNum">     483 </span>            : 
+<span class="lineNum">     484 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     485 </span>            :     constexpr bool
+<span class="lineNum">     486 </span>            :     operator&lt; (basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     487 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     488 </span>            :     { return __x.compare(__y) &lt; 0; }
+<span class="lineNum">     489 </span>            : 
+<span class="lineNum">     490 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     491 </span>            :     constexpr bool
+<span class="lineNum">     492 </span>            :     operator&lt; (basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     493 </span>            :                __detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __y) noexcept
+<span class="lineNum">     494 </span>            :     { return __x.compare(__y) &lt; 0; }
+<span class="lineNum">     495 </span>            : 
+<span class="lineNum">     496 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     497 </span>            :     constexpr bool
+<span class="lineNum">     498 </span>            :     operator&lt; (__detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __x,
+<span class="lineNum">     499 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     500 </span>            :     { return __x.compare(__y) &lt; 0; }
+<span class="lineNum">     501 </span>            : 
+<span class="lineNum">     502 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     503 </span>            :     constexpr bool
+<span class="lineNum">     504 </span>            :     operator&gt; (basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     505 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     506 </span>            :     { return __x.compare(__y) &gt; 0; }
+<span class="lineNum">     507 </span>            : 
+<span class="lineNum">     508 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     509 </span>            :     constexpr bool
+<span class="lineNum">     510 </span>            :     operator&gt; (basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     511 </span>            :                __detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __y) noexcept
+<span class="lineNum">     512 </span>            :     { return __x.compare(__y) &gt; 0; }
+<span class="lineNum">     513 </span>            : 
+<span class="lineNum">     514 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     515 </span>            :     constexpr bool
+<span class="lineNum">     516 </span>            :     operator&gt; (__detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __x,
+<span class="lineNum">     517 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     518 </span>            :     { return __x.compare(__y) &gt; 0; }
+<span class="lineNum">     519 </span>            : 
+<span class="lineNum">     520 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     521 </span>            :     constexpr bool
+<span class="lineNum">     522 </span>            :     operator&lt;=(basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     523 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     524 </span>            :     { return __x.compare(__y) &lt;= 0; }
+<span class="lineNum">     525 </span>            : 
+<span class="lineNum">     526 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     527 </span>            :     constexpr bool
+<span class="lineNum">     528 </span>            :     operator&lt;=(basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     529 </span>            :                __detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __y) noexcept
+<span class="lineNum">     530 </span>            :     { return __x.compare(__y) &lt;= 0; }
+<span class="lineNum">     531 </span>            : 
+<span class="lineNum">     532 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     533 </span>            :     constexpr bool
+<span class="lineNum">     534 </span>            :     operator&lt;=(__detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __x,
+<span class="lineNum">     535 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     536 </span>            :     { return __x.compare(__y) &lt;= 0; }
+<span class="lineNum">     537 </span>            : 
+<span class="lineNum">     538 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     539 </span>            :     constexpr bool
+<span class="lineNum">     540 </span>            :     operator&gt;=(basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     541 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     542 </span>            :     { return __x.compare(__y) &gt;= 0; }
+<span class="lineNum">     543 </span>            : 
+<span class="lineNum">     544 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     545 </span>            :     constexpr bool
+<span class="lineNum">     546 </span>            :     operator&gt;=(basic_string_view&lt;_CharT, _Traits&gt; __x,
+<span class="lineNum">     547 </span>            :                __detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __y) noexcept
+<span class="lineNum">     548 </span>            :     { return __x.compare(__y) &gt;= 0; }
+<span class="lineNum">     549 </span>            : 
+<span class="lineNum">     550 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     551 </span>            :     constexpr bool
+<span class="lineNum">     552 </span>            :     operator&gt;=(__detail::__idt&lt;basic_string_view&lt;_CharT, _Traits&gt;&gt; __x,
+<span class="lineNum">     553 </span>            :                basic_string_view&lt;_CharT, _Traits&gt; __y) noexcept
+<span class="lineNum">     554 </span>            :     { return __x.compare(__y) &gt;= 0; }
+<span class="lineNum">     555 </span>            : 
+<span class="lineNum">     556 </span>            :   // [string.view.io], Inserters and extractors
+<span class="lineNum">     557 </span>            :   template&lt;typename _CharT, typename _Traits&gt;
+<span class="lineNum">     558 </span>            :     inline basic_ostream&lt;_CharT, _Traits&gt;&amp;
+<span class="lineNum">     559 </span>            :     operator&lt;&lt;(basic_ostream&lt;_CharT, _Traits&gt;&amp; __os,
+<span class="lineNum">     560 </span>            :                basic_string_view&lt;_CharT,_Traits&gt; __str)
+<span class="lineNum">     561 </span>            :     { return __ostream_insert(__os, __str.data(), __str.size()); }
+<span class="lineNum">     562 </span>            : 
+<span class="lineNum">     563 </span>            : 
+<span class="lineNum">     564 </span>            :   // basic_string_view typedef names
+<span class="lineNum">     565 </span>            : 
+<span class="lineNum">     566 </span>            :   using string_view = basic_string_view&lt;char&gt;;
+<span class="lineNum">     567 </span>            : #ifdef _GLIBCXX_USE_WCHAR_T
+<span class="lineNum">     568 </span>            :   using wstring_view = basic_string_view&lt;wchar_t&gt;;
+<span class="lineNum">     569 </span>            : #endif
+<span class="lineNum">     570 </span>            : #ifdef _GLIBCXX_USE_C99_STDINT_TR1
+<span class="lineNum">     571 </span>            :   using u16string_view = basic_string_view&lt;char16_t&gt;;
+<span class="lineNum">     572 </span>            :   using u32string_view = basic_string_view&lt;char32_t&gt;;
+<span class="lineNum">     573 </span>            : #endif
+<span class="lineNum">     574 </span>            : 
+<span class="lineNum">     575 </span>            :   // [string.view.hash], hash support:
+<span class="lineNum">     576 </span>            : 
+<span class="lineNum">     577 </span>            :   template&lt;typename _Tp&gt;
+<span class="lineNum">     578 </span>            :     struct hash;
+<span class="lineNum">     579 </span>            : 
+<span class="lineNum">     580 </span>            :   template&lt;&gt;
+<span class="lineNum">     581 </span>            :     struct hash&lt;string_view&gt;
+<span class="lineNum">     582 </span>            :     : public __hash_base&lt;size_t, string_view&gt;
+<span class="lineNum">     583 </span>            :     {
+<span class="lineNum">     584 </span>            :       size_t
+<span class="lineNum">     585 </span>            :       operator()(const string_view&amp; __str) const noexcept
+<span class="lineNum">     586 </span>            :       { return std::_Hash_impl::hash(__str.data(), __str.length()); }
+<span class="lineNum">     587 </span>            :     };
+<span class="lineNum">     588 </span>            : 
+<span class="lineNum">     589 </span>            :   template&lt;&gt;
+<span class="lineNum">     590 </span>            :     struct __is_fast_hash&lt;hash&lt;string_view&gt;&gt; : std::false_type
+<span class="lineNum">     591 </span>            :     { };
+<span class="lineNum">     592 </span>            : 
+<span class="lineNum">     593 </span>            : #ifdef _GLIBCXX_USE_WCHAR_T
+<span class="lineNum">     594 </span>            :   template&lt;&gt;
+<span class="lineNum">     595 </span>            :     struct hash&lt;wstring_view&gt;
+<span class="lineNum">     596 </span>            :     : public __hash_base&lt;size_t, wstring&gt;
+<span class="lineNum">     597 </span>            :     {
+<span class="lineNum">     598 </span>            :       size_t
+<span class="lineNum">     599 </span>            :       operator()(const wstring_view&amp; __s) const noexcept
+<span class="lineNum">     600 </span>            :       { return std::_Hash_impl::hash(__s.data(),
+<span class="lineNum">     601 </span>            :                                      __s.length() * sizeof(wchar_t)); }
+<span class="lineNum">     602 </span>            :     };
+<span class="lineNum">     603 </span>            : 
+<span class="lineNum">     604 </span>            :   template&lt;&gt;
+<span class="lineNum">     605 </span>            :     struct __is_fast_hash&lt;hash&lt;wstring_view&gt;&gt; : std::false_type
+<span class="lineNum">     606 </span>            :     { };
+<span class="lineNum">     607 </span>            : #endif
+<span class="lineNum">     608 </span>            : 
+<span class="lineNum">     609 </span>            : #ifdef _GLIBCXX_USE_C99_STDINT_TR1
+<span class="lineNum">     610 </span>            :   template&lt;&gt;
+<span class="lineNum">     611 </span>            :     struct hash&lt;u16string_view&gt;
+<span class="lineNum">     612 </span>            :     : public __hash_base&lt;size_t, u16string_view&gt;
+<span class="lineNum">     613 </span>            :     {
+<span class="lineNum">     614 </span>            :       size_t
+<span class="lineNum">     615 </span>            :       operator()(const u16string_view&amp; __s) const noexcept
+<span class="lineNum">     616 </span>            :       { return std::_Hash_impl::hash(__s.data(),
+<span class="lineNum">     617 </span>            :                                      __s.length() * sizeof(char16_t)); }
+<span class="lineNum">     618 </span>            :     };
+<span class="lineNum">     619 </span>            : 
+<span class="lineNum">     620 </span>            :   template&lt;&gt;
+<span class="lineNum">     621 </span>            :     struct __is_fast_hash&lt;hash&lt;u16string_view&gt;&gt; : std::false_type
+<span class="lineNum">     622 </span>            :     { };
+<span class="lineNum">     623 </span>            : 
+<span class="lineNum">     624 </span>            :   template&lt;&gt;
+<span class="lineNum">     625 </span>            :     struct hash&lt;u32string_view&gt;
+<span class="lineNum">     626 </span>            :     : public __hash_base&lt;size_t, u32string_view&gt;
+<span class="lineNum">     627 </span>            :     {
+<span class="lineNum">     628 </span>            :       size_t
+<span class="lineNum">     629 </span>            :       operator()(const u32string_view&amp; __s) const noexcept
+<span class="lineNum">     630 </span>            :       { return std::_Hash_impl::hash(__s.data(),
+<span class="lineNum">     631 </span>            :                                      __s.length() * sizeof(char32_t)); }
+<span class="lineNum">     632 </span>            :     };
+<span class="lineNum">     633 </span>            : 
+<span class="lineNum">     634 </span>            :   template&lt;&gt;
+<span class="lineNum">     635 </span>            :     struct __is_fast_hash&lt;hash&lt;u32string_view&gt;&gt; : std::false_type
+<span class="lineNum">     636 </span>            :     { };
+<span class="lineNum">     637 </span>            : #endif
+<span class="lineNum">     638 </span>            : _GLIBCXX_END_NAMESPACE_VERSION
+<span class="lineNum">     639 </span>            : 
+<span class="lineNum">     640 </span>            :   inline namespace literals
+<span class="lineNum">     641 </span>            :   {
+<span class="lineNum">     642 </span>            :   inline namespace string_view_literals
+<span class="lineNum">     643 </span>            :   {
+<span class="lineNum">     644 </span>            : _GLIBCXX_BEGIN_NAMESPACE_VERSION
+<span class="lineNum">     645 </span>            : 
+<span class="lineNum">     646 </span>            :     inline constexpr basic_string_view&lt;char&gt;
+<span class="lineNum">     647 </span>            :     operator&quot;&quot;sv(const char* __str, size_t __len) noexcept
+<span class="lineNum">     648 </span>            :     { return basic_string_view&lt;char&gt;{__str, __len}; }
+<span class="lineNum">     649 </span>            : 
+<span class="lineNum">     650 </span>            : #ifdef _GLIBCXX_USE_WCHAR_T
+<span class="lineNum">     651 </span>            :     inline constexpr basic_string_view&lt;wchar_t&gt;
+<span class="lineNum">     652 </span>            :     operator&quot;&quot;sv(const wchar_t* __str, size_t __len) noexcept
+<span class="lineNum">     653 </span>            :     { return basic_string_view&lt;wchar_t&gt;{__str, __len}; }
+<span class="lineNum">     654 </span>            : #endif
+<span class="lineNum">     655 </span>            : 
+<span class="lineNum">     656 </span>            : #ifdef _GLIBCXX_USE_C99_STDINT_TR1
+<span class="lineNum">     657 </span>            :     inline constexpr basic_string_view&lt;char16_t&gt;
+<span class="lineNum">     658 </span>            :     operator&quot;&quot;sv(const char16_t* __str, size_t __len) noexcept
+<span class="lineNum">     659 </span>            :     { return basic_string_view&lt;char16_t&gt;{__str, __len}; }
+<span class="lineNum">     660 </span>            : 
+<span class="lineNum">     661 </span>            :     inline constexpr basic_string_view&lt;char32_t&gt;
+<span class="lineNum">     662 </span>            :     operator&quot;&quot;sv(const char32_t* __str, size_t __len) noexcept
+<span class="lineNum">     663 </span>            :     { return basic_string_view&lt;char32_t&gt;{__str, __len}; }
+<span class="lineNum">     664 </span>            : #endif
+<span class="lineNum">     665 </span>            : 
+<span class="lineNum">     666 </span>            : _GLIBCXX_END_NAMESPACE_VERSION
+<span class="lineNum">     667 </span>            :   } // namespace string_literals
+<span class="lineNum">     668 </span>            :   } // namespace literals
+<span class="lineNum">     669 </span>            : 
+<span class="lineNum">     670 </span>            : } // namespace std
+<span class="lineNum">     671 </span>            : 
+<span class="lineNum">     672 </span>            : #include &lt;bits/string_view.tcc&gt;
+<span class="lineNum">     673 </span>            : 
+<span class="lineNum">     674 </span>            : #endif // __cplusplus &lt;= 201402L
+<span class="lineNum">     675 </span>            : 
+<span class="lineNum">     676 </span>            : #endif // _GLIBCXX_EXPERIMENTAL_STRING_VIEW
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/eban/CLionProjects/CPPHomework1/Base.h
+
+/home/eban/CLionProjects/CPPHomework1/Matrix.h
+Base.h
+/home/eban/CLionProjects/CPPHomework1/Base.h
+tuple
+-
+cstdint
+-
+cstdlib
+-
+
+/home/eban/CLionProjects/CPPHomework1/Vector.cpp
+Vector.h
+/home/eban/CLionProjects/CPPHomework1/Vector.h
+cstdlib
+-
+cstdint
+-
+cmath
+-
+limits
+-
+
+/home/eban/CLionProjects/CPPHomework1/Vector.h
+Base.h
+/home/eban/CLionProjects/CPPHomework1/Base.h
+Matrix.h
+/home/eban/CLionProjects/CPPHomework1/Matrix.h
+cstdlib
+-
+cstdint
+-
+
